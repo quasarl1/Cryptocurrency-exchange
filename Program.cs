@@ -1,22 +1,28 @@
+using System.Reflection.Metadata;
 using CryptoExchange.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Npgsql;
+using CryptoExchange;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
 
+var names = builder.Configuration.GetSection("ForbiddenNames:Names").Get<string[]>() ?? [];
+PublicName.LoadReserved(names);
+
 builder.Host.UseSerilog((context, services, config) => config
-    .ReadFrom.Configuration(context.Configuration)   //levels
+    .ReadFrom.Configuration(context.Configuration)   //different levels
     .ReadFrom.Services(services)
     .Enrich.FromLogContext()
     .WriteTo.Console() 
     .WriteTo.File(
         path: "logs/log-.txt",
         rollingInterval: RollingInterval.Day,        // create new files every day
-        retainedFileCountLimit: 14));   //how much
+        retainedFileCountLimit: 14));   //how much files
 
 
 static string RequireEnv(string name) =>

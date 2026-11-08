@@ -12,7 +12,7 @@ public sealed record Email
            }
         // removing spaces + To lower
         // убираем пробелы "  email@gmail.com"  "email@gmail.com " + делаем нижний регистр
-        var normalized = value?.Trim().ToLowerInvariant();
+        var normalized = value.Trim().ToLowerInvariant();
         if (normalized.Length > 254 || !normalized.Contains("@"))  
            { 
                          throw new ValidationException("Email isn't right");

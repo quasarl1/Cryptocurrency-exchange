@@ -3,22 +3,19 @@ using System.ComponentModel.DataAnnotations;
 namespace CryptoExchange.Models;
 public class User
 {
-    public string PublicName {get; private set;}
+    public PublicName PublicName {get; private set;}
     public string Tag {get; private set;}
-    public Email Email {get; set;}
+    public Email Email {get; private set;}
     public string Id {get; private set;}
 
            private User() { }
 
-public User(Email email)
+public User(Email email, PublicName publicName,string tag)
     {
         Id = Guid.NewGuid().ToString();
         Email = email;
-        
-                if (string.IsNullOrEmpty(Id))
-          {
-              throw new ValidationException("id can't be empty");
-          }
+        PublicName = publicName;
+        Tag = tag;
 
     } 
 }
