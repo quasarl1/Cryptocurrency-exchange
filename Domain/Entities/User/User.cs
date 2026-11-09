@@ -7,15 +7,16 @@ public class User
     public string Tag {get; private set;}
     public Email Email {get; private set;}
     public string Id {get; private set;}
+    public bool IsBlocked{get;private set;} = false;
 
-           private User() { }
+    private User() { }
 
-public User(Email email, PublicName publicName,string tag)
+public User(Email email, PublicName publicName,string tag, bool isBlocked)
     {
         Id = Guid.NewGuid().ToString();
         Email = email;
         PublicName = publicName;
         Tag = tag;
-
+        IsBlocked = isBlocked;
     } 
 }
