@@ -13,7 +13,7 @@ public class User
 
 public User(Email email, PublicName publicName,string tag, bool isBlocked)
     {
-        Id = Guid.NewGuid().ToString();
+        Id = Guid.CreateVersion7().ToString();
         Email = email;
         PublicName = publicName;
         Tag = tag;
