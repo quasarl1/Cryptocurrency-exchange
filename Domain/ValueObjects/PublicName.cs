@@ -21,11 +21,15 @@ private static HashSet<string> _reserved = new(StringComparer.OrdinalIgnoreCase)
             throw new ValidationException("PublicName can't be empty");
         }
         var normalized = value.Trim();
+
                 if (_reserved.Contains(normalized))
+
             throw new ValidationException("This name is reserved");
+
         Value = normalized;
-        
     }
     public static void LoadReserved(IEnumerable<string> names)
+
         => _reserved = new HashSet<string>(names, StringComparer.OrdinalIgnoreCase);
 }
+// have to add 'REGEX' for checking 'PublicName' on containing forbidden symbols
