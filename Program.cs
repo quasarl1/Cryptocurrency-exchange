@@ -6,11 +6,13 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Npgsql;
 using CryptoExchange;
 using Serilog;
+using Swashbuckle.AspNetCore.SwaggerUI;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
-
+builder.Services.AddSwaggerGen();
 var names = builder.Configuration.GetSection("ForbiddenNames:Names").Get<string[]>() ?? [];
 PublicName.LoadReserved(names);
 
@@ -60,4 +62,12 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 app.UseSerilogRequestLogging();
 // app.UseMiddleware<Checker>(); //add #1
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+app.UseAuthentication();
+app.UseAuthorization(); 
 app.MapControllers();
+app.Run();
