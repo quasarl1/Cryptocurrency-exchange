@@ -8,6 +8,7 @@ public class Account
     public User User {get;private set;} = null!;
     public bool IsFrozen {get;private set;} = false;
     public DateTime FreezingTime {get;private set;}
+
     private Account() {}
 
     public Account(string userId, bool isFrozen, DateTime freezingTime)
