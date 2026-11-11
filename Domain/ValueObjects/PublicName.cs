@@ -3,9 +3,11 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection.Metadata;
 using System.Runtime.InteropServices.Marshalling;
+using System.Text.RegularExpressions;
 namespace CryptoExchange;
 public sealed record PublicName
 {
+    private static readonly Regex Valid = new(@"^[a-zA-Z0-9_-]{3,30}$", RegexOptions.Compiled);
     public string Value {get;}
     //   Hashset + 
 //        StringComparer(Oridinal) = by bytes +
@@ -22,10 +24,8 @@ private static HashSet<string> _reserved = new(StringComparer.OrdinalIgnoreCase)
         }
         var normalized = value.Trim();
 
-                if (_reserved.Contains(normalized))
-
-            throw new ValidationException("This name is reserved");
-
+                if (_reserved.Contains(normalized)) throw new ValidationException("This name is reserved");
+                if(Valid.IsMatch(normalized)) throw new ValidationException("the Name can't contain =!@#$%^&*()_-+=&,.';][{}]");
         Value = normalized;
     }
     public static void LoadReserved(IEnumerable<string> names)
