@@ -20,3 +20,4 @@ public User(Email email, PublicName publicName,string tag, bool isBlocked)
         IsBlocked = isBlocked;
     } 
 }
+//add second User for containing hashes BCRYPT  =====> Authorization
