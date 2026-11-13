@@ -1,5 +1,9 @@
 using System.Reflection.Metadata;
 using CryptoExchange.Data;
+
+// ==>read ENV<== 
+using DotNetEnv;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -8,9 +12,9 @@ using CryptoExchange;
 using Serilog;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 var names = builder.Configuration.GetSection("ForbiddenNames:Names").Get<string[]>() ?? [];
@@ -30,6 +34,8 @@ builder.Host.UseSerilog((context, services, config) => config
 static string RequireEnv(string name) =>
     Environment.GetEnvironmentVariable(name)
     ?? throw new InvalidOperationException($"Environment variable '{name}' is not set");
+
+Env.Load("Docker-compose.env");
 
 // TAKING FROM ===>DOCKER.ENV<===
 var host = RequireEnv("DB_HOST");
