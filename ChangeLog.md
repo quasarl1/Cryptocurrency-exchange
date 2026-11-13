@@ -11,4 +11,4 @@
 
 
 ## IN FUTURE: 
-- `Polly` = [now] => "X"
+- `Polly` = [now] => -[x]
