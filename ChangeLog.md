@@ -9,3 +9,6 @@
 - EF core(`Email isunique`) [Infrastructure/Persistence/Configurations/UserConfigurations.cs ]
     -- `DataBase` with `DbSet`(Users,Accounts)
 
+
+## IN FUTURE: 
+- `Polly` = [now] => "X"
