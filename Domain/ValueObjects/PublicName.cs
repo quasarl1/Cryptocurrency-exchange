@@ -32,4 +32,3 @@ private static HashSet<string> _reserved = new(StringComparer.OrdinalIgnoreCase)
 
         => _reserved = new HashSet<string>(names, StringComparer.OrdinalIgnoreCase);
 }
-// have to add 'REGEX' for checking 'PublicName' on containing forbidden symbols
