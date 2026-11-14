@@ -25,7 +25,7 @@ private static HashSet<string> _reserved = new(StringComparer.OrdinalIgnoreCase)
         var normalized = value.Trim();
 
                 if (_reserved.Contains(normalized)) throw new ValidationException("This name is reserved");
-                if(Valid.IsMatch(normalized)) throw new ValidationException("the Name can't contain =!@#$%^&*()_-+=&,.';][{}]");
+                if(!Valid.IsMatch(normalized)) throw new ValidationException("the Name can't contain =!@#$%^&*()_-+=&,.';][{}]");
         Value = normalized;
     }
     public static void LoadReserved(IEnumerable<string> names)
