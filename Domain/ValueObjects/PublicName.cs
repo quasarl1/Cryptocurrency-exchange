@@ -18,7 +18,7 @@ public sealed record PublicName
 private static HashSet<string> _reserved = new(StringComparer.OrdinalIgnoreCase);
     public PublicName(string value)
     {
-        if(string.IsNullOrEmpty(value))
+        if(string.IsNullOrWhiteSpace(value))
         {
             throw new ValidationException("PublicName can't be empty");
         }
