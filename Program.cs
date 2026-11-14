@@ -17,7 +17,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
-var names = builder.Configuration.GetSection("ForbiddenNames:Names").Get<string[]>() ?? [];
+var names = builder.Configuration.GetSection("Forbidden_names:Names").Get<string[]>() ?? [];
+
 PublicName.LoadReserved(names);
 
 builder.Host.UseSerilog((context, services, config) => config
