@@ -36,6 +36,8 @@ public class PublicNameTests
 
     [Theory]
     [InlineData("")]
+    [InlineData("  ")]
+    [InlineData(null)]
     public void PublicName_Should_Reject_Empty(string? input) => 
     Assert.Throws<ValidationException>(() => new PublicName(input!));
 
