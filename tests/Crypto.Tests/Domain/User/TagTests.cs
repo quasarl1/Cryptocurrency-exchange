@@ -17,7 +17,6 @@ public class TagTests
     public void Tag_Should_Reject_Empty(string? input) =>
     Assert.Throws<ValidationException>(()=> new UserTag(input!));
 
-
     [Theory]
     // [InlineData("TagForTestingThis")] // 17 symbols
     [InlineData("ForTestingThisBeautifulTagThatIneverHaveSeen")]//44 symbols
