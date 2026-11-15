@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Reflection.Metadata;
 using System.Runtime.InteropServices.Marshalling;
 using System.Text.RegularExpressions;
+using System.Text;
 namespace CryptoExchange;
 public sealed record PublicName
 {
@@ -22,7 +23,7 @@ private static HashSet<string> _reserved = new(StringComparer.OrdinalIgnoreCase)
         {
             throw new ValidationException("PublicName can't be empty");
         }
-        var normalized = value.Trim();
+        var normalized = value.Normalize(NormalizationForm.FormKC).Trim();
 
                 if (_reserved.Contains(normalized)) throw new ValidationException("This name is reserved");
                 if(!Valid.IsMatch(normalized)) throw new ValidationException("the Name can't contain =!@#$%^&*()_-+=&,.';][{}]");
