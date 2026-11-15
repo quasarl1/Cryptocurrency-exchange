@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Configuration;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace CryptoExchange;
@@ -13,11 +14,11 @@ public sealed record UserTag
     public string Value {get;}
     public UserTag(string value)
     {
-                    if (string.IsNullOrEmpty(value))
+                    if (string.IsNullOrWhiteSpace(value))
                {
                     throw new ValidationException("Tag is required");
                }
-        var normalized = value.Trim();
+        var normalized = value.Normalize(NormalizationForm.FormKC).Trim();
 
         // IsMatch for checking content
 
