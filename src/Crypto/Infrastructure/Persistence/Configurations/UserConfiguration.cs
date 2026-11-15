@@ -12,8 +12,11 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasKey(u => u.Id);
 
 
-        // Unique Email for removing coincidences
-
+        // Unique Tag/Email for removing coincidences
+        builder.HasIndex(u => u.Tag).IsUnique();
+        //Tag can be changed once every 3 weeks
         builder.HasIndex(u => u.Email).IsUnique();  
+
+
     }
 }
