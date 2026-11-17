@@ -11,6 +11,8 @@ using Npgsql;
 using CryptoExchange;
 using Serilog;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,6 +66,27 @@ builder.Services.AddCors(options =>
        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
    }) ;
 
+
+//validation + creating a service
+
+builder.Services.AddOptions<JwtOptions>()
+    .Bind(builder.Configuration.GetSection(JwtOptions.SelectionName))
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
+
+
+var secretKey = builder.Configuration["Jwt:Key"];
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options => {
+        options.TokenValidationParameters = new TokenValidationParameters {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+        }; 
+    });
 
 });
 var app = builder.Build();
