@@ -1,4 +1,5 @@
 namespace CryptoExchange.Common.Response;
+
 public class BaseResponse<T> 
 {
     public bool Success {get;set;}
