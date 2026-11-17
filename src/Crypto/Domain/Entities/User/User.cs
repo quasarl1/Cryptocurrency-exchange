@@ -13,7 +13,7 @@ public class User
 
 public User(Email email, PublicName publicName,string tag, bool isBlocked)
     {
-        Id = Guid.CreateVersion7().ToString();
+        Id = "usr_" + Guid.CreateVersion7();
         Email = email;
         PublicName = publicName;
         Tag = tag;
@@ -21,3 +21,18 @@ public User(Email email, PublicName publicName,string tag, bool isBlocked)
     } 
 }
 //add second User for containing hashes BCRYPT  =====> Authorization
+
+public class AuthUser
+{
+    public string UserId {get; private set;}
+    public string Login {get;private set;}
+    public string Password {get;private set;}
+
+    public AuthUser(string _Userid, string _Login, string _Password)
+    {
+        UserId = _Userid;
+        Login = _Login;
+        Password = _Password;
+    }
+
+}
