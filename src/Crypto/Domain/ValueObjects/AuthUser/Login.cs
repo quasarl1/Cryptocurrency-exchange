@@ -1,0 +1,30 @@
+using System.ComponentModel.DataAnnotations;
+using System.Configuration;
+using System.Text;
+using System.Text.RegularExpressions;
+namespace CryptoExchange;
+public sealed record Login
+{
+    private static readonly Regex Valid = new(@"^[a-zA-Z0-9_-]{3,30}$", RegexOptions.Compiled);
+    public string Value {get;}
+    public Login(string value)
+    {
+                    if (string.IsNullOrWhiteSpace(value))
+               {
+                    throw new ValidationException("Tag is required");
+               }
+        var normalized = value.Normalize(NormalizationForm.FormKC).Trim();
+
+        // IsMatch for checking content
+
+        // IsMatch для проверки содержимого
+        
+                    if(normalized.Length > 32 || Valid.IsMatch(normalized))
+              {
+                    throw new ValidationException("the Length of a Login can't be more than 32 symbols or can't contain ' '^[a-zA-Z0-9](),-,$");
+              }
+        Value = normalized;
+    }
+}
+
+//add addReserved
