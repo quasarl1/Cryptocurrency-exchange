@@ -8,5 +8,6 @@ namespace CryptoExchange.Data
         public DataBase(DbContextOptions<DataBase> options) : base(options){}
         public DbSet<User> users {get;set;}
         public DbSet<Account> accounts {get;set;}
+        public DbSet<AuthUser> authUsers {get;set;}
     }
 }
