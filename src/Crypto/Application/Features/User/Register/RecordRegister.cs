@@ -3,4 +3,4 @@ using CryptoExchange.Models;
 using MediatR;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
 namespace CryptoExchange.Features;
-public record RecordRegister(string Password, string Login) : IRequest<BaseResponse<UserDto>> {}
+public record RecordRegister(Password Password, Login Login,PublicName Name, UserTag UserTag, Email email) : IRequest<BaseResponse<UserDto>> {}
