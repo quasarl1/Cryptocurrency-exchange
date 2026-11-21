@@ -13,7 +13,7 @@ public class Account
 
     public Account(string userId, bool isFrozen, DateTime freezingTime)
     {
-        AccountId = Guid.CreateVersion7().ToString();
+        AccountId = "acc_" + Guid.CreateVersion7().ToString();
         UserID = userId;
         IsFrozen = isFrozen;
         FreezingTime = freezingTime;
