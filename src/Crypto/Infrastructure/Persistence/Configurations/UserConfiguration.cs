@@ -10,7 +10,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     public void Configure(EntityTypeBuilder<User> builder)
     {
         //general Key
-
         builder.HasKey(u => u.Id);
 
 
@@ -18,6 +17,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasIndex(u => u.Tag).IsUnique();
         //Tag can be changed once every 3 weeks
         builder.HasIndex(u => u.Email).IsUnique();  
+
+
         builder.HasOne<AuthUser>().WithOne().HasForeignKey<AuthUser>(a => a.UserId);
     }
 }
