@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Hangfire;
 using Hangfire.SqlServer;
+using Hangfire.PostgreSql;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,16 +41,10 @@ builder.Services.AddHangfire(config => config
     .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
     .UseSimpleAssemblyNameTypeSerializer()
     .UseRecommendedSerializerSettings()
-    .UseSqlServerStorage(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
-        new SqlServerStorageOptions
-        {
-            CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
-            SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
-            QueuePollInterval = TimeSpan.FromSeconds(15),
-            UseRecommendedIsolationLevel = true,
-            DisableGlobalLocks = true
-        }));
+    .UsePostgreSqlStorage(c => c.UseNpgsqlConnection(
+        builder.Configuration.GetConnectionString("DefaultConnection"))));
+
+
 builder.Services.AddHangfireServer();
 
 static string RequireEnv(string name) =>
@@ -94,6 +89,7 @@ builder.Services.AddOptions<JwtOptions>()
 
 
 var secretKey = builder.Configuration["Jwt:Key"];
+
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options => {
