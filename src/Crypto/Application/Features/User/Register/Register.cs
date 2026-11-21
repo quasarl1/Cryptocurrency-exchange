@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore;
 using Superpower.Model;
 using UserDomain = CryptoExchange.Models.User;
+using System.Runtime.CompilerServices;
 namespace CryptoExchange.Features.User;
 public class RegisterHandler : IRequestHandler<RecordRegister,BaseResponse<UserDto>>
 {
@@ -19,13 +20,33 @@ public class RegisterHandler : IRequestHandler<RecordRegister,BaseResponse<UserD
         var user = await db.authUsers.AsNoTracking().FirstOrDefaultAsync(u => u.Login.Value == record.Login.Value,cancellationToken);
         if( user != null) throw new ValidationException("Login is already used");
         var password = BCrypt.Net.BCrypt.HashPassword(record.Password.Value);
-        var userModel = new UserDomain(
-    record.email,
-    record.Name,
-    record.UserTag,
-    false
-);
+        var userModel = new UserDomain
+        (
+            record.email,
+            record.Name,
+            record.UserTag,
+            false
+        );
+        var authModel = new AuthUser
+        (
+            userModel.Id,
+            record.Login,
+            password
+        );
+        await db.users.AddAsync(userModel,cancellationToken);
+//have to add jwt token 
+        await db.authUsers.AddAsync(authModel,cancellationToken);
+        await db.SaveChangesAsync();
+        var UserDto = new UserDto
+        {
+          PublicName = userModel.PublicName.ToString(),
+          UserTag = userModel.Tag.ToString(),
+          // Email = userModel.email 
+          Id = userModel.Id,
+          IsBlocked = false,
 
+        };
+        return BaseResponse<UserDto>.Ok(UserDto);
 
     }
 }
