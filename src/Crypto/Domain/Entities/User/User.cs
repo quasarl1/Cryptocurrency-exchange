@@ -27,9 +27,9 @@ public class AuthUser
     public string Id {get;private set;}
     public string UserId {get; private set;}
     public Login Login {get;private set;}
-    public Password Password {get;private set;}
+    public string Password {get;private set;}
 
-    public AuthUser(string _Userid, Login _Login, Password _Password)
+    public AuthUser(string _Userid, Login _Login, string _Password)
     {
         Id = "auth_" + Guid.CreateVersion7();
         UserId = _Userid;
