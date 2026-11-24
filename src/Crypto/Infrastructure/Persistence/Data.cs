@@ -9,5 +9,7 @@ namespace CryptoExchange.Data
         public DbSet<User> users {get;set;}
         public DbSet<Account> accounts {get;set;}
         public DbSet<AuthUser> authUsers {get;set;}
+        public DbSet<UserAuditLogs> logs {get;set;}
+        public DbSet<OutboxMessage> outboxMessages {get;set;}
     }
 }
