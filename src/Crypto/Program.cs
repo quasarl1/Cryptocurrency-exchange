@@ -16,6 +16,7 @@ using System.Text;
 using Hangfire;
 using Hangfire.SqlServer;
 using Hangfire.PostgreSql;
+using CryptoExchange.Jobs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +45,7 @@ builder.Services.AddHangfire(config => config
     .UsePostgreSqlStorage(c => c.UseNpgsqlConnection(
         builder.Configuration.GetConnectionString("DefaultConnection"))));
 
+builder.Services.AddTransient<ProccessOutBoxJob>();
 
 builder.Services.AddHangfireServer();
 
@@ -104,6 +106,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 });
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    RecurringJob.AddOrUpdate<ProccessOutBoxJob>(
+        "process-outbox",
+        job => job.ExecuteAsync(CancellationToken.None),
+        Cron.Minutely);
+}
 app.UseSerilogRequestLogging();
 // app.UseMiddleware<Checker>(); //add #1
 if (app.Environment.IsDevelopment())
