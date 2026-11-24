@@ -7,6 +7,7 @@ public class User
     public UserTag Tag {get; private set;}
     public Email Email {get; private set;}
     public string Id {get; private set;}
+    public DateTime RegistrationTime {get;private set;}
     public bool IsBlocked{get;private set;} = false;
 
     private User() { }
