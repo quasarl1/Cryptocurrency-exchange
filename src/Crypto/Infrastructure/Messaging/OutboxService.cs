@@ -7,6 +7,8 @@ using CryptoExchange.Data;
 using CryptoExchange.Events;
 using CryptoExchange.Models;
 using Microsoft.AspNetCore.DataProtection.KeyManagement.Internal;
+using Microsoft.AspNetCore.Mvc;
+using Xunit.Sdk;
 
 namespace CryptoExchange.EventService;
 public class OutboxEventPublisher : IEventPublisher
@@ -16,16 +18,15 @@ public class OutboxEventPublisher : IEventPublisher
     {
         _db = db;
     }
-    public async Task PublishAsync<T>(T domainEvent, CancellationToken ct = default) where T : class
+    public async Task PublishAsync(UserRegisteredEvent domainEvent, CancellationToken ct = default)
     {
-        var message = new OutboxMessage
+        await _db.outboxMessages.AddAsync(new OutboxMessage 
         (
-            type: domainEvent.GetType().Name,
-            load: JsonSerializer.Serialize(domainEvent, typeof(T))
-            // ipAddress: from middleware 
-        );
-            await _db.Set<OutboxMessage>().AddAsync(message,ct);
-            await Task.CompletedTask;
-            return;
+            userId: domainEvent.UserId,
+            type: "UserRegistered" 
+        ));
+        await _db.SaveChangesAsync();
+        await Task.CompletedTask;
+        return;
     }
 }
