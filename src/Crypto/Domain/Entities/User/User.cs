@@ -19,7 +19,8 @@ public User(Email email, PublicName publicName,UserTag tag, bool isBlocked)
         Tag = tag;
         IsBlocked = isBlocked;
         Id = "usr" + Guid.CreateVersion7();
-    } 
+    }
+
 }
 //add second User for containing hashes BCRYPT  =====> Authorization
 
